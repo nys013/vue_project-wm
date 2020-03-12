@@ -14,10 +14,16 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@better-scroll/core": "^2.0.0-beta.6",
     "axios": "^0.19.2",
+    "date-fns": "^2.10.0",
+    "mint-ui": "^2.2.13",
+    "moment": "^2.24.0",
     "swiper": "^5.3.6",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-loader": "^13.7.3",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -26,6 +32,7 @@
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.1",
+    "babel-plugin-component": "^1.1.1",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",

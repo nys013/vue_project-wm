@@ -1,8 +1,8 @@
 <template>
   <div class="header">
     <slot name="left"></slot>
-    <span class="header_title">
-      <span class="header_title_text ellipsis">{{title}})</span>
+    <span class="header_title" @click="getPosition">
+      <span class="header_title_text ellipsis">{{title}}</span>
     </span>
     <slot name="right"></slot>
   </div>
@@ -14,6 +14,13 @@
     props: {
       title: String
     },
+    methods:{
+      getPosition(){
+        if(this.$route.path === '/home'){
+
+        }
+      }
+    }
   }
 </script>
 

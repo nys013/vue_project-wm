@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api': { //匹 配 所 有 以'/api' 开 头 的 请 求 路 径 '
+        target: 'http://localhost:3000', // 代 理 目 标 的 基 础 路 径
+        changeOrigin: true, // 支 持 跨 域
+        pathRewrite: {// 重 写 路 径 : 去 掉 路 径 中 开 头 的 '/api'
+          '^/api': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -73,4 +81,5 @@ module.exports = {
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report
   }
+
 }
