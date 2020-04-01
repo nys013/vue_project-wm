@@ -151,7 +151,7 @@ export default {
   }
 }
 
-const resetShopGoods = (state)=>{
+/* const resetShopGoods = (state)=>{
   for(let i=0;i<state.shopGoods.length;i++){
     for(let k=0;k<state.shopGoods[i].foods.length;k++){
       for( let h=0;h<state.cartFoods.length;h++){
@@ -162,4 +162,4 @@ const resetShopGoods = (state)=>{
       }
     }
   }
-}
+} */

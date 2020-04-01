@@ -103,14 +103,27 @@ export default {
   }
 }
 
+// const resetShopGoods = (state)=>{
+//   for(let i=0;i<state.shopGoods.length;i++){
+//     for(let k=0;k<state.shopGoods[i].foods.length;k++){
+//       for( let h=0;h<state.cartFoods.length;h++){
+//         //这里其实最好用id因为是唯一标示，但是因为mock的数据中并没有加上id，所以只能用name替代
+//         if(state.shopGoods[i].foods[k].name===state.cartFoods[h].name){
+//           state.shopGoods[i].foods[k].count=state.cartFoods[h].count
+//         }
+//       }
+//     }
+//   }
+// }
 const resetShopGoods = (state)=>{
   for(let i=0;i<state.shopGoods.length;i++){
     for(let k=0;k<state.shopGoods[i].foods.length;k++){
-      for( let h=0;h<state.cartFoods.length;h++){
-        //这里其实最好用id因为是唯一标示，但是因为mock的数据中并没有加上id，所以只能用name替代
-        if(state.shopGoods[i].foods[k].name===state.cartFoods[h].name){
-          state.shopGoods[i].foods[k].count=state.cartFoods[h].count
-        }
+      // 用数组的方法indexOf应该比直接遍历（上面注释的方法）要快一些
+      const index = state.cartFoods.indexOf(state.shopGoods[i].foods[k])
+      if(index>=0){
+        state.shopGoods[i].foods.splice(k,1,state.cartFoods[index])
+        state.cartFoods[index] = state.shopGoods[i].foods[k]
+        //  state.shopGoods[i].foods[k] = state.cartFoods[index]
       }
     }
   }
