@@ -137,7 +137,7 @@ export default {
       })
       /* 饿了么也没有随着食物移动分类也会移动的效果，
         但是美团有，美团上的是在一定范围内让选中的分类块保持在中间，会移动分类块的 */
-      new BScroll('.menu-wrapper', {
+      this.scroll = new BScroll('.menu-wrapper', {
         scrollY: true
       })
 

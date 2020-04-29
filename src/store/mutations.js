@@ -1,7 +1,7 @@
 /*
  * 包含多个直接更新state的方法的对象
  */
-import storage from '../common/storageUtil'
+// import storage from '../common/storageUtil'
 
 import Vue from 'vue'
 import {
@@ -78,7 +78,8 @@ export default {
   },
   [RESET_CART] (state) {
     // 将food中的count置为0
-    state.cartFoods.forEach(food => food.count = 0)
+    // eslint不允许箭头函数返回一个表达式，所以要用{}括起来，那么就不会自动return了
+    state.cartFoods.forEach(food => { food.count = 0 })
 
     // 清空购物车
     state.cartFoods = []
@@ -95,9 +96,9 @@ export default {
         return pretotal + (food.selected ? 1 : 0)
       }, 0)
       if (!trueCount || trueCount === state.cartFoods.length) {
-        state.cartFoods.forEach((food, index) => food.selected = !food.selected)
+        state.cartFoods.forEach((food, index) => { food.selected = !food.selected })
       } else {
-        state.cartFoods.forEach((food, index) => food.selected = true)
+        state.cartFoods.forEach((food, index) => { food.selected = true })
       }
     }
   }

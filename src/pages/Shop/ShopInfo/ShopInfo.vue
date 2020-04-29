@@ -98,8 +98,10 @@ export default {
       }, 24)
       ul.style.width = lisLength + 'px'
 
-      new BScroll('.shop-info')
-      new BScroll('.pic-wrapper', {
+      this.scroll = new BScroll('.shop-info', {
+        scrollX: true
+      })
+      this.scroll2 = new BScroll('.pic-wrapper', {
         scrollX: true
       })
     }

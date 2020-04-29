@@ -94,7 +94,8 @@ export default {
 
   mounted () {
     this.$nextTick(() => {
-      new BScroll('.all-cart')
+      // eslint报错 Do not use 'new' for side effects，即需要实例化，不能new后不接收,而且不能直接声明式赋值，因为如果没有用到该实例，又会出现新的错误 声明未使用
+      this.scroll = new BScroll('.all-cart')
     })
   }
 }

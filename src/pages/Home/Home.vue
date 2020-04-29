@@ -110,7 +110,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getPosition', 'getCategorys', 'getShops' ])
+    ...mapActions([ 'getPosition', 'getCategorys', 'getShops' ])
 
   },
   mounted () {
@@ -132,7 +132,7 @@ export default {
     categorys (value) {
       // 然后利用$nextTick，这个是可以在数据获取之后，且页面显示完毕，其回调函数才执行
       this.$nextTick(() => {
-        new Swiper('.swiper-container', {
+        this.swiper = new Swiper('.swiper-container', {
           pagination: {
             el: '.swiper-pagination'
           },

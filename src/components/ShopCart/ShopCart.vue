@@ -80,11 +80,12 @@ export default {
   },
 
   /*
-    在原来的版本中，eslint报错，大概就是computed中修改其他数据是不合适的，因为其本身只要getter，不过我们可以自己设置setter
-    修改好后还是存在bug，原本computed会在函数中依赖的数据变化时也会调用变化
-      而因为该计算属性listShow在修改时才触发setter，那么totalCount为0时是不会触发的，此时购物车就收不回来了
-    最后，便不使用computed，而是用watch监视totalCount和isShow的变化，数量为0则更改isShow为false不显示，不为0 则new一个BScroll对象使购物车能够滑屏
-
+    在原来的版本（dev2）中，eslint报错，大概就是computed中修改其他数据是不合适的，因为其本身只要getter，不过我们可以自己设置setter
+    使用setter后还是存在bug，原本computed会在 函数中依赖的数据变化时 也会调用变化
+      而因为该计算属性listShow在直接修改时才触发setter，那么在这里是不会触发setter的
+      因为我们没有修改listShow，其值的修改是因为isShow的修改，则set不会调用——BScroll没有创造，totalCount变为0购物车不收回
+    最后，便不使用computed，而是用watch监视totalCount和isShow的变化
+      数量为0则更改isShow为false不显示  不为0 则new一个BScroll对象使购物车能够滑屏
   */
   watch: {
     totalCount () {

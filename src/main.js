@@ -28,9 +28,12 @@ Vue.use(VueLazyload, {
   error
 })
 
-new Vue({
+// 因为eslint不允许new了一个对象后不接收其实例，所以需要声名式赋值
+const vm = new Vue({
   el: '#app',
   render: h => h(App),
   router,
   store
 })
+// 接着因为声明就要使用，不然会报错，所以就用Vue.use()
+Vue.use(vm)
