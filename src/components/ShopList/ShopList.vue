@@ -11,7 +11,7 @@
             <section class="shop_detail_header">
               <h4 class="shop_title ellipsis">{{shop.name}}</h4>
               <ul class="shop_detail_ul">
-                <li class="supports" v-for="(support ,index) in shop.supports">{{support.icon_name}}</li>
+                <li class="supports" :key=index v-for="(support ,index) in shop.supports">{{support.icon_name}}</li>
               </ul>
             </section>
             <section class="shop_rating_order">
@@ -41,7 +41,7 @@
       </li>
     </ul>
     <ul  v-else>
-      <li v-for="item in 6">
+      <li v-for="(item,index) in 6" :key=index>
         <img src="./images/shop_back.svg" alt="shopBack">
       </li>
     </ul>
@@ -49,23 +49,23 @@
 </template>
 
 <script type='es6'>
-  import {mapState} from 'vuex'
+import {mapState} from 'vuex'
 
-  import Stars from '../../components/Stars/Stars'
+import Stars from '../../components/Stars/Stars'
 
-  export default {
-    data(){
-      return {
-        baseImgUrl:'http://cangdu.org:8001/img/',
-      }
-    },
-    components:{
-      Stars
-    },
-    computed:{
-      ...mapState(['shops'])
+export default {
+  data () {
+    return {
+      baseImgUrl: 'http://cangdu.org:8001/img/'
     }
+  },
+  components: {
+    Stars
+  },
+  computed: {
+    ...mapState(['shops'])
   }
+}
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>

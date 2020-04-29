@@ -29,33 +29,33 @@
 </template>
 
 <script type='es6'>
-  import CartControl from '../CartControl/CartControl'
-  export default {
-    props:{
-      food:Object
-    },
-    data(){
-      return {
-        isShow:false
-      }
-    },
-    components:{
-      CartControl
-    },
-    methods:{
-      closeTip(){
-        //方法一：
-        // this.$emit('closeTip')
-
-        //方法二
-        this.isShow = false
-      },
-      showTip(){
-        this.isShow = true
-      }
+import CartControl from '../CartControl/CartControl'
+export default {
+  props: {
+    food: Object
+  },
+  data () {
+    return {
+      isShow: false
     }
+  },
+  components: {
+    CartControl
+  },
+  methods: {
+    closeTip () {
+      // 方法一：
+      // this.$emit('closeTip')
 
+      // 方法二
+      this.isShow = false
+    },
+    showTip () {
+      this.isShow = true
+    }
   }
+
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -172,4 +172,3 @@
       background-color rgba(0, 0, 0, 0.5)
 
 </style>
-

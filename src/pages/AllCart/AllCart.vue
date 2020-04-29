@@ -57,47 +57,47 @@
 </template>
 
 <script type='es6'>
-  import HeaderTop from '../../components/HeaderTop/HeaderTop'
-  import BScroll from '@better-scroll/core'
-  import {mapState} from 'vuex'
-  export default {
-    components:{
-      HeaderTop
+import HeaderTop from '../../components/HeaderTop/HeaderTop'
+import BScroll from '@better-scroll/core'
+import {mapState} from 'vuex'
+export default {
+  components: {
+    HeaderTop
+  },
+  computed: {
+    // 因为是mock的数据，所以结构是不对的，应该每个都有对应的店铺，再进行遍历的，反正暂时先这样吧
+    ...mapState(['cartFoods']),
+    allPrice () {
+      return this.cartFoods.reduce((preTotal, cartFood) => preTotal + cartFood.price, 0)
     },
-    computed:{
-      //因为是mock的数据，所以结构是不对的，应该每个都有对应的店铺，再进行遍历的，反正暂时先这样吧
-      ...mapState(['cartFoods']),
-      allPrice(){
-        return this.cartFoods.reduce((preTotal , cartFood)=> preTotal + cartFood.price,0)
-      },
-      oldPrice(){
-        const cheap = this.cartFoods.reduce((preTotal , cartFood)=> preTotal + cartFood.oldPrice,0) - this.allPrice
-        return cheap>0 ? cheap : 0
-      },
-      allSelected(){
-        const trueCount = this.cartFoods.reduce((pretotal,food)=>{
-          return pretotal + (food.selected ? 1 : 0)
-        },0)
-        return trueCount=== this.cartFoods.length
-      }
+    oldPrice () {
+      const cheap = this.cartFoods.reduce((preTotal, cartFood) => preTotal + cartFood.oldPrice, 0) - this.allPrice
+      return cheap > 0 ? cheap : 0
+    },
+    allSelected () {
+      const trueCount = this.cartFoods.reduce((pretotal, food) => {
+        return pretotal + (food.selected ? 1 : 0)
+      }, 0)
+      return trueCount === this.cartFoods.length
+    }
 
-    },
+  },
 
-    methods:{
-      toggleSelect(food){
-        this.$store.dispatch('setFoodSelect' , food)
-      },
-      toggleAllSelect(){
-        this.$store.dispatch('setFoodSelect' , 0)
-      }
+  methods: {
+    toggleSelect (food) {
+      this.$store.dispatch('setFoodSelect', food)
     },
+    toggleAllSelect () {
+      this.$store.dispatch('setFoodSelect', 0)
+    }
+  },
 
-    mounted() {
-      this.$nextTick(()=>{
-        new BScroll('.all-cart')
-      })
-    },
+  mounted () {
+    this.$nextTick(() => {
+      new BScroll('.all-cart')
+    })
   }
+}
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
@@ -207,6 +207,5 @@
     .noFood
       text-align center
       margin-top 50px
-
 
 </style>

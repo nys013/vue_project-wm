@@ -102,32 +102,32 @@
 </template>
 
 <script>
-  import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
-  import {mapState} from 'vuex'
-  import {MessageBox , Toast} from 'mint-ui'
-  export default {
-    components: {
-      HeaderTop
-    },
-    computed:{
-      ...mapState(['userInfo'])
-    },
-    methods:{
-      logout(){
-        MessageBox.confirm('确定退出').then(
-          action => {
-            //确定的回调
-            this.$store.dispatch('logOut')
-            Toast('退出成功')
-          },
-          action => {
-            //取消的回调
-            console.log('点击取消')
-          }
-        );
-      }
+import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
+import {mapState} from 'vuex'
+import {MessageBox, Toast} from 'mint-ui'
+export default {
+  components: {
+    HeaderTop
+  },
+  computed: {
+    ...mapState(['userInfo'])
+  },
+  methods: {
+    logout () {
+      MessageBox.confirm('确定退出').then(
+        action => {
+          // 确定的回调
+          this.$store.dispatch('logOut')
+          Toast('退出成功')
+        },
+        action => {
+          // 取消的回调
+          console.log('点击取消')
+        }
+      )
     }
   }
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

@@ -56,56 +56,56 @@
 </template>
 
 <script>
-  import BScroll from '@better-scroll/core'
-  import {mapState} from 'vuex'
-  export default {
-    computed:{
-      ...mapState(['shopInfo']),
+import BScroll from '@better-scroll/core'
+import {mapState} from 'vuex'
+export default {
+  computed: {
+    ...mapState(['shopInfo']),
 
-      supportClasses(){
-        return ['activity-green','activity-red','activity-orange']
-      }
-    },
+    supportClasses () {
+      return ['activity-green', 'activity-red', 'activity-orange']
+    }
+  },
 
-    mounted(){
-      //如果在当前页面刷新，那么info并没有获取，所以就不能在这里new
-      if(!this.shopInfo){
-        return
-      }
-
-      //从主页来的，那么info已经获取了
-      this._initInfo()
-    },
-
-    watch:{
-      //如果在当前页面刷新，那么info并没有获取，所以需要观察其从[]到有值的变化，且页面显示之后，才去new
-      shopInfo(){
-        this.$nextTick(()=>{
-          this._initInfo()
-        })
-      }
-    },
-
-    methods:{
-      _initInfo(){
-        const ul = this.$refs.picsUl
-        //ul.children是伪数组，不能直接调用数组的方法
-        //const lisLength = ul.children.reduce((pretotal , li) => pretotal + li.offsetWidth ,0)
-        const lis = Array.prototype.slice.call(ul.children)
-        const lisLength = lis.reduce((pretotal , li) => {
-          //offsetWidth只包括内容区、padding、border、滚动条占位，是不包括margin的
-          return pretotal + li.offsetWidth
-        } ,24)
-        ul.style.width = lisLength + 'px'
-
-        new BScroll('.shop-info')
-        new BScroll('.pic-wrapper',{
-          scrollX:true
-        })
-      }
+  mounted () {
+    // 如果在当前页面刷新，那么info并没有获取，所以就不能在这里new
+    if (!this.shopInfo) {
+      return
     }
 
+    // 从主页来的，那么info已经获取了
+    this._initInfo()
+  },
+
+  watch: {
+    // 如果在当前页面刷新，那么info并没有获取，所以需要观察其从[]到有值的变化，且页面显示之后，才去new
+    shopInfo () {
+      this.$nextTick(() => {
+        this._initInfo()
+      })
+    }
+  },
+
+  methods: {
+    _initInfo () {
+      const ul = this.$refs.picsUl
+      // ul.children是伪数组，不能直接调用数组的方法
+      // const lisLength = ul.children.reduce((pretotal , li) => pretotal + li.offsetWidth ,0)
+      const lis = Array.prototype.slice.call(ul.children)
+      const lisLength = lis.reduce((pretotal, li) => {
+        // offsetWidth只包括内容区、padding、border、滚动条占位，是不包括margin的
+        return pretotal + li.offsetWidth
+      }, 24)
+      ul.style.width = lisLength + 'px'
+
+      new BScroll('.shop-info')
+      new BScroll('.pic-wrapper', {
+        scrollX: true
+      })
+    }
   }
+
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -218,7 +218,6 @@
             color #333
           &:last-child
             border-none()
-
 
     .split
       width: 100%

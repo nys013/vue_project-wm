@@ -117,36 +117,35 @@
 </template>
 
 <script type='es6'>
-  import {mapState} from 'vuex'
-  export default {
-    computed:{
-      ...mapState(['shopInfo']),
-      supportClasses (){
-        return ['activity-green','activity-red','activity-orange']
-      }
+import {mapState} from 'vuex'
+export default {
+  computed: {
+    ...mapState(['shopInfo']),
+    supportClasses () {
+      return ['activity-green', 'activity-red', 'activity-orange']
+    }
+  },
+  data () {
+    return {
+      shopShow: false,
+      supportShow: false
+    }
+  },
+  methods: {
+    toggleShopShow () {
+      this.shopShow = !this.shopShow
     },
-    data(){
-      return {
-        shopShow:false,
-        supportShow:false,
-      }
-    },
-    methods:{
-      toggleShopShow(){
-        this.shopShow = ! this.shopShow
-      },
-      toggleSupportShow(){
-        this.supportShow = ! this.supportShow
-      },
-      /*closeTip(){
+    toggleSupportShow () {
+      this.supportShow = !this.supportShow
+    }
+    /* closeTip(){
         this.shopShow = false
         this.supportShow = false
-      },*/
-
-    },
-
+      }, */
 
   }
+
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>

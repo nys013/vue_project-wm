@@ -19,7 +19,7 @@
         </div>
       </div>
         <transition name="move">
-          <div class="shopcart-list" v-show="listShow">
+          <div class="shopcart-list" v-show="isShow">
             <div class="list-header">
               <h1 class="title">购物车</h1>
               <span class="empty" @click="clearCart">清空</span>
@@ -39,85 +39,94 @@
         </transition>
     </div>
     <transition name="fade">
-      <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
+      <div class="list-mask" v-show="isShow" @click="toggleShow"></div>
     </transition>
 
   </div>
 </template>
 
 <script>
-  import {mapState, mapGetters} from 'vuex'
-  import CartControl from '../../components/CartControl/CartControl'
-  import {MessageBox} from 'mint-ui'
-  import BScroll from '@better-scroll/core'
-  export default {
-    components:{
-      CartControl
+import {mapState, mapGetters} from 'vuex'
+import CartControl from '../../components/CartControl/CartControl'
+import {MessageBox} from 'mint-ui'
+import BScroll from '@better-scroll/core'
+export default {
+  components: {
+    CartControl
+  },
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  computed: {
+    ...mapState(['cartFoods', 'shopInfo']),
+    ...mapGetters(['totalCount', 'totalPrice']),
+    payClass () {
+      const {totalPrice, shopInfo} = this
+      return totalPrice >= shopInfo.minPrice ? 'enough' : 'not-enough'
     },
-    data(){
-      return {
-        isShow:false
-      }
-    },
-    computed:{
-      ...mapState(['cartFoods' , 'shopInfo']),
-      ...mapGetters(['totalCount' , 'totalPrice']),
-      payClass(){
-        const {totalPrice,shopInfo} = this
-        return totalPrice >= shopInfo.minPrice ? 'enough' : 'not-enough'
-      },
-      payText(){
-        const {totalCount,totalPrice,shopInfo} = this
-        if(totalCount === 0 ){
-          return `${shopInfo.minPrice}元起送`
-        } else if (totalPrice >= shopInfo.minPrice){
-          return '结算'
-        }else {
-          return `还需要${shopInfo.minPrice - totalPrice}元起送`
-        }
-      },
-
-      listShow(){
-        const {totalCount , isShow} = this
-
-        if(totalCount ===0 ){
-          this.isShow = false
-          return false
-        }
-
-        //在数据确定 ，且列表显示后才new一个BScroll对象
-        this.$nextTick(()=>{
-          //设置为单例事件
-          if(!this.scroll){
-            this.scroll = new BScroll('.list-content',{
-              scrollY:true,
-              //老师说的那个问题，只要不将这个设为true就好了啊，就会是原生的事件
-              click:true
-            })
-          }else{
-            //设置为单例事件后，就没办法滑动了，所以需要更新一下
-            this.scroll.refresh()
-          }
-
-        })
-        return this.isShow
-      }
-    },
-
-    methods:{
-      toggleShow(){
-        if(this.totalCount){
-          this.isShow = ! this.isShow
-        }
-      },
-
-      clearCart(){
-        MessageBox.confirm('确定清空购物车？').then(action => {
-          this.$store.dispatch('clearCart')
-        },()=>{})
+    payText () {
+      const {totalCount, totalPrice, shopInfo} = this
+      if (totalCount === 0) {
+        return `${shopInfo.minPrice}元起送`
+      } else if (totalPrice >= shopInfo.minPrice) {
+        return '结算'
+      } else {
+        return `还需要${shopInfo.minPrice - totalPrice}元起送`
       }
     }
+
+  },
+
+  /*
+    在原来的版本中，eslint报错，大概就是computed中修改其他数据是不合适的，因为其本身只要getter，不过我们可以自己设置setter
+    修改好后还是存在bug，原本computed会在函数中依赖的数据变化时也会调用变化
+      而因为该计算属性listShow在修改时才触发setter，那么totalCount为0时是不会触发的，此时购物车就收不回来了
+    最后，便不使用computed，而是用watch监视totalCount和isShow的变化，数量为0则更改isShow为false不显示，不为0 则new一个BScroll对象使购物车能够滑屏
+
+  */
+  watch: {
+    totalCount () {
+      const {totalCount} = this
+      if (totalCount === 0) {
+        this.isShow = false
+      }
+    },
+    isShow () {
+      if (this.isShow) {
+        // 在数据确定 ，且列表显示后才new一个BScroll对象
+        this.$nextTick(() => {
+          // 设置为单例事件
+          if (!this.scroll) {
+            this.scroll = new BScroll('.list-content', {
+              scrollY: true,
+              // 老师说的那个问题，只要不将click设为true就好了啊，就会是原生的事件
+              click: true
+            })
+          } else {
+            // 设置为单例事件后，就没办法滑动了，所以需要更新一下
+            this.scroll.refresh()
+          }
+        })
+      }
+    }
+  },
+
+  methods: {
+    toggleShow () {
+      if (this.totalCount) {
+        this.isShow = !this.isShow
+      }
+    },
+
+    clearCart () {
+      MessageBox.confirm('确定清空购物车？').then(action => {
+        this.$store.dispatch('clearCart')
+      }, () => {})
+    }
   }
+}
 
 </script>
 

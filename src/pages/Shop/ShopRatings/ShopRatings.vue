@@ -28,7 +28,7 @@
       <div class="split"></div>
 
       <div class="ratingselect">
-        <div class="rating-type border-1px">
+        <div class="rating-type">
           <span class="block positive" :class="{active:selectType===2}" @click="selectType=2">
             全部<span class="count">{{shopRatings.length}}</span>
           </span>
@@ -71,59 +71,58 @@
   </div>
 </template>
 
-
 <script>
-  import {mapState , mapGetters} from 'vuex'
-  import Star from '../../../components/Stars/Stars'
-  import BScroll from '@better-scroll/core'
-  export default {
-    components:{
-      Star
-    },
-    data(){
-      return {
-        onlyShowText:true,
-        selectType:2
-      }
-    },
-    computed:{
-      ...mapState(['shopInfo' , 'shopRatings']),
-      ...mapGetters(['positiveSize']),
-      filterRatings(){
-        //条件一 selectType===2 或 selectType 与 ratetype 对应
-        //条件二 onlyShowText是false 或者 text有内容
-        const {selectType , onlyShowText , shopRatings} =this
-        return shopRatings.filter(rating => {
-          return (selectType===2 || selectType===rating.rateType) && (!onlyShowText || rating.text.length)
-        })
-      }
-    },
-    mounted () {
-      this.$store.dispatch('getShopRatings', () => {
-        this.$nextTick(() => {
-          this.ratings = new BScroll(this.$refs.ratings, {
-            //click: true
-          })
+import {mapState, mapGetters} from 'vuex'
+import Star from '../../../components/Stars/Stars'
+import BScroll from '@better-scroll/core'
+export default {
+  components: {
+    Star
+  },
+  data () {
+    return {
+      onlyShowText: true,
+      selectType: 2
+    }
+  },
+  computed: {
+    ...mapState(['shopInfo', 'shopRatings']),
+    ...mapGetters(['positiveSize']),
+    filterRatings () {
+      // 条件一 selectType===2 或 selectType 与 ratetype 对应
+      // 条件二 onlyShowText是false 或者 text有内容
+      const {selectType, onlyShowText, shopRatings} = this
+      return shopRatings.filter(rating => {
+        return (selectType === 2 || selectType === rating.rateType) && (!onlyShowText || rating.text.length)
+      })
+    }
+  },
+  mounted () {
+    this.$store.dispatch('getShopRatings', () => {
+      this.$nextTick(() => {
+        this.ratings = new BScroll(this.$refs.ratings, {
+          // click: true
         })
       })
-    },
-    /*mounted () {
+    })
+  },
+  /* mounted () {
       this.$store.dispatch('getShopRatings')
-    },*/
-    watch : {
-      //这里很关键，当数据发生改变，页面改变显示完之后，要对其进行刷新，不然无法重新获取高度
-      filterRatings(value){
-        this.$nextTick(()=>{
-          this.ratings.refresh()
-          //或者可以在这里new，毕竟这里有个问题，影响页面的数据不单单是从vuex获取的，还是后来通过操作，计算属性改变了之后来的
-          //所以在这里就方便多了，不用new了再reflesh0
-          /*new BScroll(this.$refs.ratings, {
+    }, */
+  watch: {
+    // 这里很关键，当数据发生改变，页面改变显示完之后，要对其进行刷新，不然无法重新获取高度
+    filterRatings (value) {
+      this.$nextTick(() => {
+        this.ratings.refresh()
+        // 或者可以在这里new，毕竟这里有个问题，影响页面的数据不单单是从vuex获取的，还是后来通过操作，计算属性改变了之后来的
+        // 所以在这里就方便多了，不用new了再reflesh0
+        /* new BScroll(this.$refs.ratings, {
             //click: true
-          })*/
-        })
-      }
+          }) */
+      })
     }
   }
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -207,7 +206,7 @@
       .rating-type
         padding: 18px 0
         margin: 0 18px
-        border-1px(rgba(7, 17, 27, 0.1))
+        bottom-border-1px(rgba(7, 17, 27, 0.1))
         font-size: 0
         .block
           display: inline-block

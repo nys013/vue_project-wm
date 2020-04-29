@@ -10,18 +10,18 @@
 
 <script>
 
-  export default {
-    props: {
-      title: String
-    },
-    methods:{
-      getPosition(){
-        if(this.$route.path === '/home'){
+export default {
+  props: {
+    title: String
+  },
+  methods: {
+    getPosition () {
+      if (this.$route.path === '/home') {
 
-        }
       }
     }
   }
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

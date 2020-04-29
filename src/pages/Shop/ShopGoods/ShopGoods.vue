@@ -52,132 +52,129 @@
 </template>
 
 <script type='es6'>
-  import {mapState} from 'vuex'
-  import BScroll from '@better-scroll/core'
-  import CartControl from '../../../components/CartControl/CartControl'
-  import FoodDetail from '../../../components/FoodDetail/FoodDetail'
-  import ShopCart from '../../../components/ShopCart/ShopCart'
+import {mapState} from 'vuex'
+import BScroll from '@better-scroll/core'
+import CartControl from '../../../components/CartControl/CartControl'
+import FoodDetail from '../../../components/FoodDetail/FoodDetail'
+import ShopCart from '../../../components/ShopCart/ShopCart'
 
-  export default {
-    components:{
-      CartControl,
-      FoodDetail,
-      ShopCart
-    },
-    computed:{
-      ...mapState(['shopGoods' , 'cartFoods' ]),
+export default {
+  components: {
+    CartControl,
+    FoodDetail,
+    ShopCart
+  },
+  computed: {
+    ...mapState(['shopGoods', 'cartFoods']),
 
-      currentIndex (){
-        //根据tops区间和scrollY得出目前所在的下标
+    currentIndex () {
+      // 根据tops区间和scrollY得出目前所在的下标
       //  [0, 748, 1058, 1529, 1650, 1866, 2101, 2412, 2911]
-        return this.tops.findIndex((top , index) => {
+      return this.tops.findIndex((top, index) => {
+        return this.scrollY >= top && (this.scrollY < this.tops[index + 1])
+      })
+    }
 
-          return this.scrollY >= top && (this.scrollY < this.tops[index+1] )
-        })
-      },
+    // 注释掉了这一行 2020-04-10
+    // newShopGoods () {
+    //   /* shopGoods.forEach((good , index) => {
 
-      newShopGoods(){
-        /*shopGoods.forEach((good , index) => {
+    //     }) */
+    //   for (let i = 0; i < this.shopGoods.length; i++) {
+    //     for (let k = 0; k < this.shopGoods[i].foods.length; k++) {
+    //       // let isadd=true;                          //判断该商品是否在购物车
+    //       for (let h = 0; h < this.cartFoods.length; h++) {
+    //         if (this.shopGoods[i].foods[k].name === this.cartFoods[h].name) {
+    //           this.shopGoods[i].foods[k].count = this.cartFoods[h].count
+    //           /* isadd=false;
+    //             break; */
+    //         }
+    //       }
+    //       /* if(isadd){
+    //           this.shopGoods[i].foods[k].count=0;
+    //         } */
+    //     }
+    //   }
+    //   return this.shopGoods
+    // }
 
-        })*/
-        for(let i=0;i<this.shopGoods.length;i++){
-          for(let k=0;k<this.shopGoods[i].foods.length;k++){
-            // let isadd=true;                          //判断该商品是否在购物车
-            for( let h=0;h<this.cartFoods.length;h++){
-              if(this.shopGoods[i].foods[k].name===this.cartFoods[h].name){
-                this.shopGoods[i].foods[k].count=this.cartFoods[h].count;
-                /*isadd=false;
-                break;*/
-              }
-            }
-            /*if(isadd){
-              this.shopGoods[i].foods[k].count=0;
-            }*/
+  },
 
-          }
-        }
-        return this.shopGoods
-      }
+  data () {
+    return {
+      tops: [],
+      scrollY: 0,
+      food: {},
+      foodShow: false
+    }
+  },
+  mounted () {
+    // 可以传参为回调，那么设置回调事件将会在获取到数据后执行
+    this.$store.dispatch('getShopGoods', () => {
+      // 同时还要再数据完成页面显示后，才去new
+      this.$nextTick(() => {
+        this.createBScroll()
 
-    },
+        // const lis = this.$refs.foodsUl.children
+        const lis = document.querySelectorAll('.foods-wrapper .food-list-hook')
+        this.tops = Array.prototype.slice.call(lis).reduce((pretotal, li) => {
+          pretotal.push(li.offsetTop)
 
-    data(){
-      return {
-        tops:[],
-        scrollY:0,
-        food:{},
-        foodShow:false
-      }
-    },
-    mounted () {
-      //可以传参为回调，那么设置回调事件将会在获取到数据后执行
-      this.$store.dispatch('getShopGoods' , ()=>{
-        //同时还要再数据完成页面显示后，才去new
-        this.$nextTick(()=>{
-          this.createBScroll()
+          return pretotal
+        }, [])
+        const lastLi = lis[lis.length - 1]
+        this.tops.push(lastLi.offsetTop + lastLi.offsetHeight)
+        console.log(this.tops)
+      })
+    })
+  },
+  methods: {
+    createBScroll () {
+      this.foodsScroll = new BScroll('.foods-wrapper', {
+        scrollY: true,
+        probeType: 1, // 根据这项配置不同，所触发事件的形式不同
+        swipeTime: 1000
+      })
+      /* 饿了么也没有随着食物移动分类也会移动的效果，
+        但是美团有，美团上的是在一定范围内让选中的分类块保持在中间，会移动分类块的 */
+      new BScroll('.menu-wrapper', {
+        scrollY: true
+      })
 
-          //const lis = this.$refs.foodsUl.children
-          const lis = document.querySelectorAll('.foods-wrapper .food-list-hook')
-          this.tops = Array.prototype.slice.call(lis).reduce((pretotal , li) => {
-            pretotal.push(li.offsetTop)
-
-            return pretotal
-          },[])
-          const lastLi = lis[lis.length-1]
-          this.tops.push(lastLi.offsetTop + lastLi.offsetHeight)
-          console.log(this.tops);
-        })
+      this.foodsScroll.on('scroll', ({x, y}) => {
+        console.log(x, y)
+        this.scrollY = Math.abs(y)
+      })
+      this.foodsScroll.on('scrollEnd', ({x, y}) => {
+        console.log('scrollEnd', y)
+        this.scrollY = Math.abs(y)
       })
     },
-    methods:{
-      createBScroll(){
-        this.foodsScroll = new BScroll('.foods-wrapper',{
-          scrollY:true,
-          probeType:1, //根据这项配置不同，所触发事件的形式不同
-          swipeTime:1000
-        })
-        /*饿了么也没有随着食物移动分类也会移动的效果，
-        但是美团有，美团上的是在一定范围内让选中的分类块保持在中间，会移动分类块的*/
-        new BScroll('.menu-wrapper' , {
-          scrollY:true
-        })
 
-        this.foodsScroll.on('scroll' , ({x , y})=>{
-          console.log(x , y)
-          this.scrollY = Math.abs(y)
-        })
-        this.foodsScroll.on('scrollEnd' , ({x , y})=>{
-          console.log("scrollEnd" , y)
-          this.scrollY = Math.abs(y)
+    menuClick (index) {
+      const scrollY = this.tops[index]
+      this.foodsScroll.scrollTo(0, -scrollY, 300)
+      // 不等scrollEnd才触发效果，自己设定
+      this.scrollY = scrollY
+    },
 
-        })
-      },
-
-      menuClick(index){
-        const scrollY = this.tops[index]
-        this.foodsScroll.scrollTo(0 , -scrollY , 300)
-        //不等scrollEnd才触发效果，自己设定
-        this.scrollY = scrollY
-      },
-
-
-    /*两种父子组件通信的方法,显然是方法二简单，而且因为方法一的影响懒得改了，否则可以直接定义一个函数，传布尔参数就可*/
-      //方法一：使用自定义事件，通过$emit分发事件，只能在父组件去到
-      /*showFoodDetail(food){
+    /* 两种父子组件通信的方法,显然是方法二简单，而且因为方法一的影响懒得改了，否则可以直接定义一个函数，传布尔参数就可 */
+    // 方法一：使用自定义事件，通过$emit分发事件，只能在父组件去到
+    /* showFoodDetail(food){
         this.food = food
         this.foodShow = true
       },
 
       closeTip(){
         this.foodShow = false
-      }*/
-      //方法二：在子组件中定义该事件，父组件通过$refs调用
-      showFoodDetail(food){
-        this.food = food
-        this.$refs.foodDetail.showTip()
-      },
+      } */
+    // 方法二：在子组件中定义该事件，父组件通过$refs调用
+    showFoodDetail (food) {
+      this.food = food
+      this.$refs.foodDetail.showTip()
     }
   }
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

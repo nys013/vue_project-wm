@@ -35,42 +35,42 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
-  export default {
-    components:{
-      HeaderTop
-    },
-    data(){
-      return {
-        imgBaseUrl: 'http://cangdu.org:8001/img/',
-        keyword:'',
-        showContent:3 //0是搜索出来的结果 ， 1是搜索中 ， 2是无结果 ，3就是在空白
-      }
-    },
-    computed:{
-      ...mapState(['searchShops'])
-    },
-    methods:{
-      search(){
-        const keyword = this.keyword.trim()
-        if(keyword){
-          this.showContent = 1
-          this.$store.dispatch('searchShops' , keyword)
-        }
-      }
-    },
-    watch:{
-      searchShops(value){
-        if(!value.length){
-          this.showContent = 2
-        }else {
-          this.showContent = 0
-        }
+import {mapState} from 'vuex'
+import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
+export default {
+  components: {
+    HeaderTop
+  },
+  data () {
+    return {
+      imgBaseUrl: 'http://cangdu.org:8001/img/',
+      keyword: '',
+      showContent: 3 // 0是搜索出来的结果 ， 1是搜索中 ， 2是无结果 ，3就是在空白
+    }
+  },
+  computed: {
+    ...mapState(['searchShops'])
+  },
+  methods: {
+    search () {
+      const keyword = this.keyword.trim()
+      if (keyword) {
+        this.showContent = 1
+        this.$store.dispatch('searchShops', keyword)
       }
     }
-
+  },
+  watch: {
+    searchShops (value) {
+      if (!value.length) {
+        this.showContent = 2
+      } else {
+        this.showContent = 0
+      }
+    }
   }
+
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>

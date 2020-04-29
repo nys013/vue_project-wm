@@ -130,31 +130,28 @@
 </template>
 
 <script>
-  import Swiper from 'swiper'
-  import 'swiper/css/swiper.min.css'
+import Swiper from 'swiper'
+import 'swiper/css/swiper.min.css'
 
-  import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
-  import ShopList from '../ShopList/ShopList'
+import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
+import ShopList from '../ShopList/ShopList'
 
-  export default {
-    components: {
-      HeaderTop,
-      ShopList
-    },
-    mounted () {
-      new Swiper('.swiper-container', {
-        pagination: {
-          el: '.swiper-pagination',
-        },
-        loop: true
-      })
-    }
-
-
+export default {
+  components: {
+    HeaderTop,
+    ShopList
+  },
+  mounted () {
+    new Swiper('.swiper-container', {
+      pagination: {
+        el: '.swiper-pagination'
+      },
+      loop: true
+    })
   }
+
+}
 </script>
-
-
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixins.styl"

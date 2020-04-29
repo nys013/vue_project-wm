@@ -18,86 +18,86 @@ import {
   RESET_CART,
   RECEIVE_SEARCH_SHOPS,
   SET_FOOD_SELECT
-}from './mutation-types'
+} from './mutation-types'
 
 export default {
-  [RECEIVE_POSITION](state , position){
+  [RECEIVE_POSITION] (state, position) {
     state.position = position
   },
-  [RECEIVE_CATEGORYS](state , categorys){
+  [RECEIVE_CATEGORYS] (state, categorys) {
     state.categorys = categorys
   },
-  [RECEIVE_SHOPS](state , shops){
+  [RECEIVE_SHOPS] (state, shops) {
     state.shops = shops
   },
-  [RECEIVE_USER_INFO](state,userInfo){
+  [RECEIVE_USER_INFO] (state, userInfo) {
     state.userInfo = userInfo
   },
-  [RESET_USER_INFO](state){
+  [RESET_USER_INFO] (state) {
     state.userInfo = {}
   },
 
-  /*2.0版本*/
-  [RECEIVE_SHOP_GOODS](state , shopGoods){
-    if(!state.shopGoods.length){
+  /* 2.0版本 */
+  [RECEIVE_SHOP_GOODS] (state, shopGoods) {
+    if (!state.shopGoods.length) {
       state.shopGoods = shopGoods
-    }else{
-      /*解决退出去再进来页面数量不对问题---因为每次都会重新发请求获取数据（无count），所以再获取完之后，还要将相应的数量从购物车中取出加上*/
+    } else {
+      /* 解决退出去再进来页面数量不对问题---因为每次都会重新发请求获取数据（无count），所以再获取完之后，还要将相应的数量从购物车中取出加上 */
       resetShopGoods(state)
     }
   },
 
-  [RECEIVE_SHOP_INFO](state , shopInfo){
+  [RECEIVE_SHOP_INFO] (state, shopInfo) {
     state.shopInfo = shopInfo
   },
-  [RECEIVE_SHOP_RATINGS](state , shopRatings){
+  [RECEIVE_SHOP_RATINGS] (state, shopRatings) {
     state.shopRatings = shopRatings
   },
-  [PLUS_FOOD_COUNT](state , food){
-    if(!food.count){
-      //虽然food有数据绑定，但是这里的count是新增加的属性，所以没有绑定，所以需要由Vue的一个方法来加上
-      //food.count = 1
-      //三个参数：对象，key（属性名，是字符串），value（属性值）
-      Vue.set(food , 'count' , 1)
-      Vue.set(food , 'selected' , true)
-      //因为food是引用数据类型，所以设置一次就会关联起来
-      //但是吧，后来我想刷新之后仍然保存数据，就存到localstorage中，但是他们就不关联了，除非将food的数量变成0之后才行
+  [PLUS_FOOD_COUNT] (state, food) {
+    if (!food.count) {
+      // 虽然food有数据绑定，但是这里的count是新增加的属性，所以没有绑定，所以需要由Vue的一个方法来加上
+      // food.count = 1
+      // 三个参数：对象，key（属性名，是字符串），value（属性值）
+      Vue.set(food, 'count', 1)
+      Vue.set(food, 'selected', true)
+      // 因为food是引用数据类型，所以设置一次就会关联起来
+      // 但是吧，后来我想刷新之后仍然保存数据，就存到localstorage中，但是他们就不关联了，除非将food的数量变成0之后才行
       state.cartFoods.push(food)
     } else {
       food.count++
     }
   },
-  [MINUS_FOOD_COUNT](state , food){
-    if(food.count){
+  [MINUS_FOOD_COUNT] (state, food) {
+    if (food.count) {
       food.count--
-      //当count为0，从购物车中移除
-      if(food.count === 0 ){
-        state.cartFoods.splice(state.cartFoods.indexOf(food) , 1)
+      // 当count为0，从购物车中移除
+      if (food.count === 0) {
+        state.cartFoods.splice(state.cartFoods.indexOf(food), 1)
       }
     }
   },
-  [RESET_CART](state){
-    //将food中的count置为0
-    state.cartFoods.forEach(food => food.count = 0 )
+  [RESET_CART] (state) {
+    // 将food中的count置为0
+    state.cartFoods.forEach(food => food.count = 0)
 
-    //清空购物车
+    // 清空购物车
     state.cartFoods = []
   },
-  [RECEIVE_SEARCH_SHOPS](state , searchShops){
+  [RECEIVE_SEARCH_SHOPS] (state, searchShops) {
     state.searchShops = searchShops
   },
 
-  [SET_FOOD_SELECT](state , flag){
-    if(flag){
+  [SET_FOOD_SELECT] (state, flag) {
+    if (flag) {
       flag.selected = !flag.selected
-    }else{
-      let trueCount = state.cartFoods.reduce((pretotal,food)=>{
+    } else {
+      let trueCount = state.cartFoods.reduce((pretotal, food) => {
         return pretotal + (food.selected ? 1 : 0)
-      },0)
-      if(!trueCount || trueCount===state.cartFoods.length){
-        state.cartFoods.forEach((food,index) => food.selected = !food.selected)
-      }else{
-        state.cartFoods.forEach((food,index) => food.selected = true)
+      }, 0)
+      if (!trueCount || trueCount === state.cartFoods.length) {
+        state.cartFoods.forEach((food, index) => food.selected = !food.selected)
+      } else {
+        state.cartFoods.forEach((food, index) => food.selected = true)
       }
     }
   }
@@ -115,13 +115,13 @@ export default {
 //     }
 //   }
 // }
-const resetShopGoods = (state)=>{
-  for(let i=0;i<state.shopGoods.length;i++){
-    for(let k=0;k<state.shopGoods[i].foods.length;k++){
+const resetShopGoods = (state) => {
+  for (let i = 0; i < state.shopGoods.length; i++) {
+    for (let k = 0; k < state.shopGoods[i].foods.length; k++) {
       // 用数组的方法indexOf应该比直接遍历（上面注释的方法）要快一些
       const index = state.cartFoods.indexOf(state.shopGoods[i].foods[k])
-      if(index>=0){
-        state.shopGoods[i].foods.splice(k,1,state.cartFoods[index])
+      if (index >= 0) {
+        state.shopGoods[i].foods.splice(k, 1, state.cartFoods[index])
         state.cartFoods[index] = state.shopGoods[i].foods[k]
         //  state.shopGoods[i].foods[k] = state.cartFoods[index]
       }

@@ -5,32 +5,32 @@
 </template>
 
 <script type='es6'>
-  export default {
-    props:{
-      size:String,
-      score:Number
-    },
-    computed:{
-      starClasses(){
-        const {score} = this
-        let starArr = []
-        const scoreInteger = Math.floor(score)
-        for (let i = 0 ; i<scoreInteger ;i++){
-          starArr.push('on')
-        }
-        if(score*10 - scoreInteger*10 >= 5){
-          starArr.push('half')
-        }
-        while (starArr.length < 5){
-          starArr.push('off')
-        }
-        /*for (let i = starArr.length ; i<5 ;i++){
-          starArr.push('off')
-        }*/
-        return starArr
+export default {
+  props: {
+    size: String,
+    score: Number
+  },
+  computed: {
+    starClasses () {
+      const {score} = this
+      let starArr = []
+      const scoreInteger = Math.floor(score)
+      for (let i = 0; i < scoreInteger; i++) {
+        starArr.push('on')
       }
+      if (score * 10 - scoreInteger * 10 >= 5) {
+        starArr.push('half')
+      }
+      while (starArr.length < 5) {
+        starArr.push('off')
+      }
+      /* for (let i = starArr.length ; i<5 ;i++){
+          starArr.push('off')
+        } */
+      return starArr
     }
   }
+}
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>

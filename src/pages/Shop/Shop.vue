@@ -26,22 +26,22 @@
 </template>
 
 <script type='es6'>
-  import ShopHeader from '../../components/ShopHeader/ShopHeader'
-  export default {
-    components:{
-      ShopHeader
-    },
-    mounted(){
-      this.$store.dispatch('getShopInfo')
-    },
-    methods:{
-      //以失败告终的点击其他地方也能关闭
-      /*closeTip(){
+import ShopHeader from '../../components/ShopHeader/ShopHeader'
+export default {
+  components: {
+    ShopHeader
+  },
+  mounted () {
+    this.$store.dispatch('getShopInfo')
+  },
+  methods: {
+    // 以失败告终的点击其他地方也能关闭
+    /* closeTip(){
         this.$refs.header.closeTip()
-      }*/
-    }
-
+      } */
   }
+
+}
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>

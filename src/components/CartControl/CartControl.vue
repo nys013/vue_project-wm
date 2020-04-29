@@ -9,16 +9,16 @@
 </template>
 
 <script type='es6'>
-  export default {
-    props:{
-      food:Object
-    },
-    methods:{
-      updateFoodCount(isPlus){
-        this.$store.dispatch('updateFoodCount' , {isPlus , food:this.food})
-      }
+export default {
+  props: {
+    food: Object
+  },
+  methods: {
+    updateFoodCount (isPlus) {
+      this.$store.dispatch('updateFoodCount', {isPlus, food: this.food})
     }
   }
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
