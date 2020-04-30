@@ -16,7 +16,9 @@ export default{
     // 因为存到localstorage的是字符串，在取的时候又将字符串转为数组，此时完成了一次深拷贝，所以cartFoods是没有指向shopGoods里了
     localStorage.getItem('userMsg') && this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(localStorage.getItem('userMsg'))))
 
-    // 成功了，用了比较麻烦的方法，首先知道了原因了，因为用localstorage存值取值的这一过程是进行深拷贝的，所以购物车和shopFoods就不关联了
+    /* 要进行解耦，最好不要在这里直接操作store，使用action */
+    this.$store.dispatch('relinkFoods')
+    /* // 成功了，用了比较麻烦的方法，首先知道了原因了，因为用localstorage存值取值的这一过程是进行深拷贝的，所以购物车和shopFoods就不关联了
     //  所以只能重新循环重新push进去了······2020-04-01
     for (let i = 0; i < this.$store.state.shopGoods.length; i++) {
       for (let k = 0; k < this.$store.state.shopGoods[i].foods.length; k++) {
@@ -25,13 +27,14 @@ export default{
           if (this.$store.state.shopGoods[i].foods[k].name === this.$store.state.cartFoods[h].name && this.$store.state.shopGoods[i].foods[k].count) {
             // 这里循环进了两次，一次有count，一次没有(因为mock的数据有重复的食物，因为用name判断的，所以第二个没count的就会覆盖前一个)
             // 这个mock的数据有些问题，首先，没有id，其次，相同的食物应该关联（而不是添加了这个，这个没有添加）
-            console.log('111', this.$store.state.shopGoods[i].foods[k])
+            // console.log('111', this.$store.state.shopGoods[i].foods[k])
 
             this.$store.state.cartFoods.splice(h, 1, this.$store.state.shopGoods[i].foods[k])
           }
         }
       }
-    }
+    } */
+
     // 在页面刷新时将vuex里的信息保存到localStorage里
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('userMsg', JSON.stringify(this.$store.state))

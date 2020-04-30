@@ -26,14 +26,15 @@ import {
   PLUS_FOOD_COUNT,
   RESET_CART,
   RECEIVE_SEARCH_SHOPS,
-  SET_FOOD_SELECT
+  SET_FOOD_SELECT,
+  RELINK_FOODS
 } from './mutation-types'
 
 export default {
   // 获取当前所在位置
   async getPosition ({commit, state}) {
     const geohash = state.latitude + ',' + state.longitude
-    console.log(geohash)
+    // console.log(geohash)
     const result = await reqPosition(geohash)
     if (result.code === 0) {
       commit(RECEIVE_POSITION, result.data)
@@ -134,6 +135,11 @@ export default {
   // 设置总购物车食物选择情况
   setFoodSelect ({commit}, flag) {
     commit(SET_FOOD_SELECT, flag)
+  },
+
+  // 刷新后将shopfoods中的food与cartFoods重新关联
+  relinkFoods ({commit}) {
+    commit(RELINK_FOODS)
   }
 
 }

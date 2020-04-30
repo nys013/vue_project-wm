@@ -83,27 +83,27 @@ export default {
 
     /* 这里是难点之一，首先逻辑比较复杂，其次是考察对push的理解，在push后会直接影响原数组 */
     /* 好像又不仅仅是push，而是对引用数据类型的理解，引用数据类型是会实时监测的 */
+    // 基础没学好就会觉得难，现在回头一看，很简单的
+    // 逻辑：想要循环遍历categorys，得到一个arr数组，arr中每个元素都是数组minArr，minArr每个最多包含8个元素
     catetorysArr () {
+      // 首先将需要的两个数组声明为空数组
       const arr = []
       let minArr = []
-
+      // 对categorys进行遍历
       this.categorys.forEach(c => {
         // debugger
+        // 下面两个判断，以及 最后将元素push进minArr 的 顺序不能换，这是紧密的逻辑，如果换了就要设计好逻辑关系
         if (minArr.length === 8) {
+        // 当minArr长度为8时，就满了，就要重新赋值为空数组，此时地址值改变，与原来的没有任何关系，仅同名罢了
           minArr = []
-          /* const a = []
-            const b = []
-            console.log(a,b)
-            b.push(a)
-            a.push("hahaha") */
-          // console.log('000000',minArr,minArr.length,a);
         }
+        // 当minArr长度为0，即一开始 和 上面判断minArr为8满了重新变为空数组时，进入下面的判断
         if (minArr.length === 0) {
-          // 小数组关联到了大数组
+          // 将小数组关联到了大数组，push是会直接影响原数组的
           arr.push(minArr)
           // console.log('88888',minArr,arr)
         }
-        // 在这里push后，75行的arr就已经收到了新的c
+        // 每次都要把当前遍历的元素push进minArr，因为上面小数组关联到大数组，c就在arr的其中一个minArr中了
         minArr.push(c)
       })
       return arr
@@ -149,11 +149,11 @@ export default {
           scrollY: true
         })
         scroll.on('scrollStart', () => {
-          console.log('start')
+          // console.log('start')
           this.move = 'moveOut'
         })
         scroll.on('scrollEnd', () => {
-          console.log('end')
+          // console.log('end')
           this.move = 'moveIn'
         })
       })

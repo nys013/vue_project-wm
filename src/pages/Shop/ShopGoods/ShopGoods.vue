@@ -124,7 +124,7 @@ export default {
         }, [])
         const lastLi = lis[lis.length - 1]
         this.tops.push(lastLi.offsetTop + lastLi.offsetHeight)
-        console.log(this.tops)
+        // console.log(this.tops)
       })
     })
   },
@@ -142,11 +142,11 @@ export default {
       })
 
       this.foodsScroll.on('scroll', ({x, y}) => {
-        console.log(x, y)
+        // console.log(x, y)
         this.scrollY = Math.abs(y)
       })
       this.foodsScroll.on('scrollEnd', ({x, y}) => {
-        console.log('scrollEnd', y)
+        // console.log('scrollEnd', y)
         this.scrollY = Math.abs(y)
       })
     },

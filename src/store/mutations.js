@@ -17,7 +17,8 @@ import {
   PLUS_FOOD_COUNT,
   RESET_CART,
   RECEIVE_SEARCH_SHOPS,
-  SET_FOOD_SELECT
+  SET_FOOD_SELECT,
+  RELINK_FOODS
 } from './mutation-types'
 
 export default {
@@ -99,6 +100,23 @@ export default {
         state.cartFoods.forEach((food, index) => { food.selected = !food.selected })
       } else {
         state.cartFoods.forEach((food, index) => { food.selected = true })
+      }
+    }
+  },
+
+  [RELINK_FOODS] (state) {
+    // localstorage存值取值的这一过程是进行深拷贝的，所以购物车和shopFoods就不关联了
+    //  所以只能重新循环重新push进去了
+    for (let i = 0; i < state.shopGoods.length; i++) {
+      for (let k = 0; k < state.shopGoods[i].foods.length; k++) {
+        for (let h = 0; h < state.cartFoods.length; h++) {
+          // 这里其实最好用id因为是唯一标示，但是因为mock的数据中并没有加上id，所以只能用name替代
+          // mock数据没有id，同名但不是同一个食物，实际接口应该是同id同食物
+          if (state.shopGoods[i].foods[k].name === state.cartFoods[h].name && state.shopGoods[i].foods[k].count) {
+            // console.log('--------', state.shopGoods[i].foods[k])
+            state.cartFoods.splice(h, 1, state.shopGoods[i].foods[k])
+          }
+        }
       }
     }
   }
