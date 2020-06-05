@@ -1,30 +1,9 @@
-# vue-project-ggwm
+# 仿饿了么的vue项目
 
-> A Vue.js project
+## 描述
 
-## Build Setup
+目前是无错误，完善的版本。
+除了教程的，还添加了首页购物车，以及刷新购物车数据保存的功能。
+将eslint的错误也修正了。教程中一些不好或者落后的方式也进行了修正。
+也许还有一些错误或者可以优化的地方，欢迎和我交流，共同学习，一起改进。
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
