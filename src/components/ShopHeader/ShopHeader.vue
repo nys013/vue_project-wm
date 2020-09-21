@@ -138,10 +138,6 @@ export default {
     toggleSupportShow () {
       this.supportShow = !this.supportShow
     }
-    /* closeTip(){
-        this.shopShow = false
-        this.supportShow = false
-      }, */
 
   }
 

@@ -1,13 +1,6 @@
 <template>
- <!-- <div>
-    <ShopHeader/>
-    <router-link to="/shop/shopgoods">商品</router-link>
-    <router-link to="/shop/shopratings">评分</router-link>
-    <router-link to="/shop/shopinfo">商家信息</router-link>
-    <router-view/>
-  </div>-->
   <div >
-    <ShopHeader ref="header"/>
+    <ShopHeader/>
     <div class="tab">
       <div class="tab-item">
         <router-link to="/shop/shopgoods" replace >商品</router-link>
@@ -26,19 +19,13 @@
 </template>
 
 <script type='es6'>
-import ShopHeader from '../../components/ShopHeader/ShopHeader'
+import ShopHeader from '../../components/ShopHeader/ShopHeader.vue'
 export default {
   components: {
     ShopHeader
   },
   mounted () {
     this.$store.dispatch('getShopInfo')
-  },
-  methods: {
-    // 以失败告终的点击其他地方也能关闭
-    /* closeTip(){
-        this.$refs.header.closeTip()
-      } */
   }
 
 }

@@ -45,7 +45,6 @@
       </div>
       <ShopCart />
     </div>
-   <!-- <Food :food="food" ref="food"/>-->
 <!--    <FoodDetail :food="food" v-show="foodShow" @closeTip="closeTip" />-->
     <FoodDetail :food="food" ref="foodDetail"/>
   </div>
@@ -74,30 +73,6 @@ export default {
         return this.scrollY >= top && (this.scrollY < this.tops[index + 1])
       })
     }
-
-    // 注释掉了这一行 2020-04-10
-    // newShopGoods () {
-    //   /* shopGoods.forEach((good , index) => {
-
-    //     }) */
-    //   for (let i = 0; i < this.shopGoods.length; i++) {
-    //     for (let k = 0; k < this.shopGoods[i].foods.length; k++) {
-    //       // let isadd=true;                          //判断该商品是否在购物车
-    //       for (let h = 0; h < this.cartFoods.length; h++) {
-    //         if (this.shopGoods[i].foods[k].name === this.cartFoods[h].name) {
-    //           this.shopGoods[i].foods[k].count = this.cartFoods[h].count
-    //           /* isadd=false;
-    //             break; */
-    //         }
-    //       }
-    //       /* if(isadd){
-    //           this.shopGoods[i].foods[k].count=0;
-    //         } */
-    //     }
-    //   }
-    //   return this.shopGoods
-    // }
-
   },
 
   data () {
@@ -119,7 +94,6 @@ export default {
         const lis = document.querySelectorAll('.foods-wrapper .food-list-hook')
         this.tops = Array.prototype.slice.call(lis).reduce((pretotal, li) => {
           pretotal.push(li.offsetTop)
-
           return pretotal
         }, [])
         const lastLi = lis[lis.length - 1]
@@ -136,7 +110,7 @@ export default {
         swipeTime: 1000
       })
       /* 饿了么也没有随着食物移动分类也会移动的效果，
-        但是美团有，美团上的是在一定范围内让选中的分类块保持在中间，会移动分类块的 */
+        但是美团有，美团上的是在一定范围内让选中的分类块保持在中间，会移动分类块的.如有需求可优化 */
       this.scroll = new BScroll('.menu-wrapper', {
         scrollY: true
       })
@@ -158,16 +132,16 @@ export default {
       this.scrollY = scrollY
     },
 
-    /* 两种父子组件通信的方法,显然是方法二简单，而且因为方法一的影响懒得改了，否则可以直接定义一个函数，传布尔参数就可 */
-    // 方法一：使用自定义事件，通过$emit分发事件，只能在父组件去到
-    /* showFoodDetail(food){
-        this.food = food
-        this.foodShow = true
-      },
+    /* 两种父子组件通信的方法,显然是方法二相对简单 */
+    // 方法一：使用自定义事件，通过$emit分发事件
+    // showFoodDetail (food) {
+    //   this.food = food
+    //   this.foodShow = true
+    // },
 
-      closeTip(){
-        this.foodShow = false
-      } */
+    // closeTip () {
+    //   this.foodShow = false
+    // }
     // 方法二：在子组件中定义该事件，父组件通过$refs调用
     showFoodDetail (food) {
       this.food = food

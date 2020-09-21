@@ -5,7 +5,7 @@
         <i class="iconfont icon-arrow_left"></i>
       </span>
     </HeaderTop>
-    <div class="all-cart" >
+    <div class="all-cart" :style='`height:${height}px`'>
       <ul class="all-cart-shops" v-if="cartFoods.length">
         <li class="all-cart-shop">
           <div class="shop-title">
@@ -16,10 +16,10 @@
           </div>
           <ul class="food-list">
             <li class="food" v-for="(cartFood , index) in cartFoods" :key="index" >
-              <span class="switch" :class="{on : cartFood.selected}" @click="toggleSelect(cartFood)">
+              <div class="switch" :class="{on : cartFood.selected}" @click="toggleSelect(cartFood)">
                 <span class="iconfont icon-check_circle "></span>
-              </span>
-              <span class="food-detail">
+              </div>
+              <div class="food-detail">
                 <img :src="cartFood.icon" alt="1">
                 <div class="food-detail-right">
                   <span class="top">{{cartFood.name}}</span>
@@ -32,7 +32,7 @@
                   </div>
                 </div>
 
-              </span>
+              </div>
             </li>
 
           </ul>
@@ -64,11 +64,16 @@ export default {
   components: {
     HeaderTop
   },
+  data: function () {
+    return {
+      height: 0
+    }
+  },
   computed: {
     // 因为是mock的数据，所以结构是不对的，应该每个都有对应的店铺，再进行遍历的，反正暂时先这样吧
     ...mapState(['cartFoods']),
     allPrice () {
-      return this.cartFoods.reduce((preTotal, cartFood) => preTotal + cartFood.price, 0)
+      return this.cartFoods.reduce((preTotal, cartFood) => preTotal + cartFood.price * cartFood.count, 0)
     },
     oldPrice () {
       const cheap = this.cartFoods.reduce((preTotal, cartFood) => preTotal + cartFood.oldPrice, 0) - this.allPrice
@@ -93,6 +98,8 @@ export default {
   },
 
   mounted () {
+    const deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
+    this.height = deviceHeight - 45
     this.$nextTick(() => {
       // eslint报错 Do not use 'new' for side effects，即需要实例化，不能new后不接收,而且不能直接声明式赋值，因为如果没有用到该实例，又会出现新的错误 声明未使用
       this.scroll = new BScroll('.all-cart')
@@ -115,15 +122,13 @@ export default {
   .all-cart
     margin-top 45px
     background-color #F3F3F3
-    height 622px
     overflow hidden
     .all-cart-shops
       padding 5px 0
+      margin 0 20px
       .all-cart-shop
-        width 350px
         margin 20px auto
         /*padding 5px*/
-
         .shop-title
           display flex
           padding 5px
@@ -145,7 +150,6 @@ export default {
             display flex
             padding 10px 20px
             .switch
-              float left
               align-self center
               .iconfont
                 font-size 20px
@@ -154,30 +158,30 @@ export default {
                   color $green
 
             .food-detail
+              display flex
+              flex 1 1 400px
               img
                 width 50px
                 height 50px
-                float left
                 margin 0 10px
               .food-detail-right
-                position relative
+                flex 1 1 400px
+                display flex
+                flex-direction column
+                justify-content space-between
                 height 50px
-                width 200px
-                float:left
                 align-self center
                 font-size 15px
                 .top
                   font-weight bold
                 .bottom
-                  position absolute
+                  display flex
+                  justify-content space-between
                   width 100%
-                  bottom 0
                   color grey
                 .bottom-left
                   font-size 13px
-                  float left
                 .bottom-right
-                  float right
                   .old
                     text-decoration: line-through
                     font-size 11px

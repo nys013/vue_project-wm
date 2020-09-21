@@ -8,7 +8,7 @@ export default {
   totalCount (state) {
     return state.cartFoods.reduce((pretotal, food) => pretotal + food.count, 0)
   },
-  positiveSize (state) {
+  positiveRatingNum (state) {
     return state.shopRatings.reduce((pretotal, rating) => pretotal + (rating.rateType === 0 ? 1 : 0), 0)
   }
 }

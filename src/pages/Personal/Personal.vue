@@ -13,7 +13,6 @@
           </div>
           <div class="user-info">
             <p class="user-info-top" v-if="!userInfo.phone">{{userInfo.name || '登录/注册'}}</p>
-<!--            我是一个分隔线，因为没能注册用上云融通？暂时不做验证码登陆-->
             <p >
                 <span class="user-icon">
                   <i class="iconfont icon-shouji icon-mobile"></i>
@@ -67,13 +66,13 @@
               </span>
           </div>
         </a>
-        <!-- 硅谷外卖会员卡 -->
+        <!-- 外卖会员卡 -->
         <a href="javascript:" class="my_order">
             <span>
               <i class="iconfont icon-vip"></i>
             </span>
           <div class="my_order_div">
-            <span>硅谷外卖会员卡</span>
+            <span>外卖会员卡</span>
             <span class="my_order_icon">
                 <i class="iconfont icon-jiantou1"></i>
               </span>

@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <slot name="left"></slot>
-    <span class="header_title" @click="getPosition">
+    <span class="header_title" @click="getPos">
       <span class="header_title_text ellipsis">{{title}}</span>
     </span>
     <slot name="right"></slot>
@@ -15,9 +15,10 @@ export default {
     title: String
   },
   methods: {
-    getPosition () {
+    // 获取地理位置
+    getPos () {
       if (this.$route.path === '/home') {
-
+        this.$store.dispatch('getPosition')
       }
     }
   }

@@ -15,14 +15,14 @@
       </span>
     </HeaderTop>
 
-    <div class="slip-wrap"  style="overflow: hidden;height: 572px;margin-top: 45px">
+    <div class="slip-wrap"  :style="`overflow: hidden;height:${height}px;margin-top: 45px`">
       <div class="slip-content">
         <!--首页导航-->
         <nav class="msite_nav">
           <div v-if="categorys.length" class="swiper-container">
             <div class="swiper-wrapper">
               <div class="swiper-slide"  v-for="(categorys , index) in catetorysArr" :key="index" >
-                <a href="javascript:" class="link_to_food" v-for="(category , index) in categorys" :key="index">
+                <a href="javascript:;" class="link_to_food" v-for="(category , index) in categorys" :key="index">
                   <div class="food_container">
                     <img :src="baseImageUrl + category.image_url">
                   </div>
@@ -66,7 +66,7 @@ import {mapState, mapActions} from 'vuex'
 import BScroll from '@better-scroll/core'
 
 import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
-import ShopList from '../../components/ShopList/ShopList'
+import ShopList from '../../components/ShopList/ShopList.vue'
 export default {
   components: {
     HeaderTop,
@@ -75,15 +75,13 @@ export default {
   data () {
     return {
       baseImageUrl: 'https://fuss10.elemecdn.com',
-      move: 'moveIn'
+      move: 'moveIn',
+      height: 0
     }
   },
   computed: {
     ...mapState(['position', 'categorys', 'userInfo', 'shops']),
 
-    /* 这里是难点之一，首先逻辑比较复杂，其次是考察对push的理解，在push后会直接影响原数组 */
-    /* 好像又不仅仅是push，而是对引用数据类型的理解，引用数据类型是会实时监测的 */
-    // 基础没学好就会觉得难，现在回头一看，很简单的
     // 逻辑：想要循环遍历categorys，得到一个arr数组，arr中每个元素都是数组minArr，minArr每个最多包含8个元素
     catetorysArr () {
       // 首先将需要的两个数组声明为空数组
@@ -101,7 +99,6 @@ export default {
         if (minArr.length === 0) {
           // 将小数组关联到了大数组，push是会直接影响原数组的
           arr.push(minArr)
-          // console.log('88888',minArr,arr)
         }
         // 每次都要把当前遍历的元素push进minArr，因为上面小数组关联到大数组，c就在arr的其中一个minArr中了
         minArr.push(c)
@@ -126,6 +123,10 @@ export default {
         },
         loop: true
       }) */
+
+    // 根据设备不同设置滚动wrap的高度
+    const deviceHeight = document.documentElement.clientHeight || document.body.clientHeight
+    this.height = deviceHeight - 50 - 45
   },
   watch: {
     /* 通过实时监测categorys的变化，即从[]到有数据的变化后 */

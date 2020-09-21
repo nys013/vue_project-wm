@@ -49,11 +49,13 @@ export default {
     background: rgba(0, 0, 0, .5)
     .tip_text_container
       position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-top: -90px
-      margin-left: -110px
+      top: 0
+      left: 0
+      right 0
+      bottom 0
+      margin auto
       width: 60%
+      height 133px
       animation: tipMove .4s;
       background-color: rgba(255, 255, 255, 1);
       border: 1px;

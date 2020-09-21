@@ -34,7 +34,7 @@ export default {
   // 获取当前所在位置
   async getPosition ({commit, state}) {
     const geohash = state.latitude + ',' + state.longitude
-    // console.log(geohash)
+    console.log(geohash)
     const result = await reqPosition(geohash)
     if (result.code === 0) {
       commit(RECEIVE_POSITION, result.data)

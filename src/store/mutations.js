@@ -62,7 +62,6 @@ export default {
       Vue.set(food, 'count', 1)
       Vue.set(food, 'selected', true)
       // 因为food是引用数据类型，所以设置一次就会关联起来
-      // 但是吧，后来我想刷新之后仍然保存数据，就存到localstorage中，但是他们就不关联了，除非将food的数量变成0之后才行
       state.cartFoods.push(food)
     } else {
       food.count++
@@ -107,14 +106,17 @@ export default {
   [RELINK_FOODS] (state) {
     // localstorage存值取值的这一过程是进行深拷贝的，所以购物车和shopFoods就不关联了
     //  所以只能重新循环重新push进去了
+    // let z = 0
     for (let i = 0; i < state.shopGoods.length; i++) {
       for (let k = 0; k < state.shopGoods[i].foods.length; k++) {
         for (let h = 0; h < state.cartFoods.length; h++) {
+          // console.log('判断循环几次', ++z)
           // 这里其实最好用id因为是唯一标示，但是因为mock的数据中并没有加上id，所以只能用name替代
           // mock数据没有id，同名但不是同一个食物，实际接口应该是同id同食物
           if (state.shopGoods[i].foods[k].name === state.cartFoods[h].name && state.shopGoods[i].foods[k].count) {
-            // console.log('--------', state.shopGoods[i].foods[k])
             state.cartFoods.splice(h, 1, state.shopGoods[i].foods[k])
+            // 用break可减少循环次数，这算是一个小优化吧
+            break
           }
         }
       }
@@ -140,9 +142,9 @@ const resetShopGoods = (state) => {
       // 用数组的方法indexOf应该比直接遍历（上面注释的方法）要快一些
       const index = state.cartFoods.indexOf(state.shopGoods[i].foods[k])
       if (index >= 0) {
-        state.shopGoods[i].foods.splice(k, 1, state.cartFoods[index])
-        state.cartFoods[index] = state.shopGoods[i].foods[k]
-        //  state.shopGoods[i].foods[k] = state.cartFoods[index]
+        state.shopGoods[i].foods[k].count = state.cartFoods[index].count
+        // 循环善用break可减少一定的循环次数，优化，加快运行效率
+        break
       }
     }
   }

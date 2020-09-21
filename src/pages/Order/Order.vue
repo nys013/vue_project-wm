@@ -1,11 +1,6 @@
 <template>
   <div>
     <section class="order">
-      <!--<header class="header">
-        <a class="header_title">
-          <span class="header_title_text">订单列表</span>
-        </a>
-      </header>-->
       <HeaderTop title="订单列表"/>
       <section class="order_no_login">
         <img src="./images/person.png">

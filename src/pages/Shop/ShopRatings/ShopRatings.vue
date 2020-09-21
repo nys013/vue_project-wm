@@ -33,10 +33,10 @@
             全部<span class="count">{{shopRatings.length}}</span>
           </span>
           <span class="block positive" :class="{active:selectType===0}" @click="selectType=0">
-            满意<span class="count">{{positiveSize}}</span>
+            满意<span class="count">{{positiveRatingNum}}</span>
           </span>
           <span class="block negative" :class="{active:selectType===1}" @click="selectType=1">
-            不满意<span class="count">{{shopRatings.length-positiveSize}}</span>
+            不满意<span class="count">{{shopRatings.length-positiveRatingNum}}</span>
           </span>
         </div>
         <div class="switch" :class="{on:onlyShowText}" @click="onlyShowText = ! onlyShowText" >
@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     ...mapState(['shopInfo', 'shopRatings']),
-    ...mapGetters(['positiveSize']),
+    ...mapGetters(['positiveRatingNum']),
     filterRatings () {
       // 条件一 selectType===2 或 selectType 与 ratetype 对应
       // 条件二 onlyShowText是false 或者 text有内容
@@ -106,6 +106,7 @@ export default {
       })
     })
   },
+  // 法二
   /* mounted () {
       this.$store.dispatch('getShopRatings')
     }, */
@@ -114,8 +115,9 @@ export default {
     filterRatings (value) {
       this.$nextTick(() => {
         this.ratings.refresh()
+        // 法二：
         // 或者可以在这里new，毕竟这里有个问题，影响页面的数据不单单是从vuex获取的，还是后来通过操作，计算属性改变了之后来的
-        // 所以在这里就方便多了，不用new了再reflesh0
+        // 所以在这里就可以不用new了再reflesh
         /* new BScroll(this.$refs.ratings, {
             //click: true
           }) */
