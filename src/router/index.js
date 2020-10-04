@@ -6,6 +6,10 @@ import Shop from '../pages/Shop/Shop'
 import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods'
 import ShopRatings from '../pages/Shop/ShopRatings/ShopRatings'
 import ShopInfo from '../pages/Shop/ShopInfo/ShopInfo'
+import OrderDetail from '../pages/OrderDetail/OrderDetail.vue'
+import Settlement from '../pages/Settlement/Settlement.vue'
+import Note from '../pages/Note/Note.vue'
+import Pay from '../pages/Pay/Pay.vue'
 
 /* import Home from '../pages/Home/Home.vue'
 import Search from '../pages/Search/Search.vue'
@@ -50,6 +54,10 @@ export default new VueRouter({
       }
     },
     {
+      path:'/order/detail/:id',
+      component:OrderDetail
+    },
+    {
       path: '/personal',
       component: Personal,
       meta: {
@@ -85,6 +93,18 @@ export default new VueRouter({
           redirect: 'shopgoods'
         }
       ]
-    }
+    },
+    {
+      path: '/settlement',
+      component: Settlement
+    },
+    {
+      path: '/settlement/note',
+      component: Note
+    },
+    {
+      path: '/pay',
+      component: Pay
+    },
   ]
 })

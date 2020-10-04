@@ -10,7 +10,8 @@ import {
   reqShopGoods,
   reqShopInfo,
   reqShopRatings,
-  reqSearchShops
+  reqSearchShops,
+  reqOrderList
 } from '../api'
 
 import {
@@ -27,7 +28,9 @@ import {
   RESET_CART,
   RECEIVE_SEARCH_SHOPS,
   SET_FOOD_SELECT,
-  RELINK_FOODS
+  RELINK_FOODS,
+  RECEIVE_ORDER_LIST,
+  RECEIVE_ORDER_NOTE
 } from './mutation-types'
 
 export default {
@@ -140,6 +143,19 @@ export default {
   // 刷新后将shopfoods中的food与cartFoods重新关联
   relinkFoods ({commit}) {
     commit(RELINK_FOODS)
+  },
+
+  // 获取订单信息
+  async getOrderList({commit}){
+    const result = await reqOrderList()
+    if (result.code === 0) {
+      commit(RECEIVE_ORDER_LIST,result.data)
+    }
+  },
+
+  // 存订单备注信息
+  setOrderNote({commit},note){
+    commit(RECEIVE_ORDER_NOTE,note)
   }
 
 }

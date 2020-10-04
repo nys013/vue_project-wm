@@ -13,7 +13,7 @@
           <div class="desc">另需配送费￥{{shopInfo.deliveryPrice}}元</div>
         </div>
         <div class="content-right">
-          <div class="pay" :class="payClass">
+          <div class="pay" :class="payClass" @click='handlePay'>
             {{payText}}
           </div>
         </div>
@@ -48,7 +48,7 @@
 <script>
 import {mapState, mapGetters} from 'vuex'
 import CartControl from '../../components/CartControl/CartControl'
-import {MessageBox} from 'mint-ui'
+import {MessageBox,Toast} from 'mint-ui'
 import BScroll from '@better-scroll/core'
 export default {
   components: {
@@ -60,7 +60,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cartFoods', 'shopInfo']),
+    ...mapState(['cartFoods', 'shopInfo','userInfo']),
     ...mapGetters(['totalCount', 'totalPrice']),
     payClass () {
       const {totalPrice, shopInfo} = this
@@ -102,7 +102,7 @@ export default {
           if (!this.scroll) {
             this.scroll = new BScroll('.list-content', {
               scrollY: true,
-              // 老师说的那个问题，只要不将click设为true就好了啊，就会是原生的事件
+              // 那个问题，只要不将click设为true就好了啊，就会是原生的事件
               click: true
             })
           } else {
@@ -125,6 +125,16 @@ export default {
       MessageBox.confirm('确定清空购物车？').then(action => {
         this.$store.dispatch('clearCart')
       }, () => {})
+    },
+    handlePay(){
+      if (this.payClass === 'enough') {
+        if (this.userInfo._id) {
+          this.$router.push('/settlement')
+        } else {
+          Toast('请先登录')
+          this.$router.push('/login')
+        }
+      }
     }
   }
 }

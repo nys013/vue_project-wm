@@ -43,3 +43,6 @@ export const reqShopRatings = () => ajax('/shop_ratings')
 
 // 获取商家信息
 export const reqShopInfo = () => ajax('/shop_info')
+
+// 获取订单列表
+export const reqOrderList = () => ajax('/order_list')

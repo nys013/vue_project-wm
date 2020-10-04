@@ -18,7 +18,9 @@ import {
   RESET_CART,
   RECEIVE_SEARCH_SHOPS,
   SET_FOOD_SELECT,
-  RELINK_FOODS
+  RELINK_FOODS,
+  RECEIVE_ORDER_LIST,
+  RECEIVE_ORDER_NOTE
 } from './mutation-types'
 
 export default {
@@ -121,7 +123,19 @@ export default {
         }
       }
     }
+  },
+
+  // 将订单信息存入vuex中
+  [RECEIVE_ORDER_LIST](state,data){
+    state.orderList = data
+  },
+
+  // 将订单备注存入vuex中
+  [RECEIVE_ORDER_NOTE](state,data){
+    state.orderNote = data
   }
+
+
 }
 
 // const resetShopGoods = (state)=>{

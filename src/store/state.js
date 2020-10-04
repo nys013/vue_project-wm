@@ -13,5 +13,7 @@ export default {
   shopGoods: [], // 商品
   shopRatings: [], // 评分
   cartFoods: [], // 购物车的食物
-  searchShops: []// 搜索所得的商家店铺列表
+  searchShops: [],// 搜索所得的商家店铺列表
+  orderList:[],  //订单信息
+  orderNote:'', //订单备注
 }

@@ -151,8 +151,8 @@ export default {
       if (this.result.code === 0) {
         // 存储返回值user
         this.$store.dispatch('saveUserInfo', this.result.data)
-        // 跳转到personal界面
-        this.$router.replace('/personal')
+        // 登录成功返回刚才界面
+        this.$router.go(-1)
       } else {
         // 失败则提示相应的信息
         showTip(this.result.msg)

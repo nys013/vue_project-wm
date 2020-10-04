@@ -4,7 +4,7 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import {Button} from 'mint-ui'
+import {Button,Field} from 'mint-ui'
 // 图片懒加载
 import VueLazyload from 'vue-lazyload'
 import loading from './common/img/loading.gif'
@@ -21,6 +21,7 @@ import './filter'
 
 // 要想按需使用，还得下载babel-plugin-component插件和对babelrc进行配置(http://mint-ui.github.io/docs/#/en2/quickstart)
 Vue.component(Button.name, Button)
+Vue.component(Field.name, Field)
 
 // 图片懒加载，安装上后，就会在其内部多了个lazy指令
 Vue.use(VueLazyload, {

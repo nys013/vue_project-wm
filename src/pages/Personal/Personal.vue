@@ -47,7 +47,7 @@
             <span>
               <i class="iconfont icon-order-s"></i>
             </span>
-          <div class="my_order_div">
+          <div class="my_order_div" @click='toOrder'>
             <span>我的订单</span>
             <span class="my_order_icon">
                 <i class="iconfont icon-jiantou1"></i>
@@ -124,6 +124,13 @@ export default {
           console.log('点击取消')
         }
       )
+    },
+    toOrder(){
+      if (this.userInfo._id) {
+        this.$router  .replace('/order')
+      } else {
+        Toast('请先登录')
+      }
     }
   }
 }

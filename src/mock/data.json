@@ -1386,5 +1386,32 @@
       "avatar": "http://static.galileo.xiaojukeji.com/static/tms/default_header.png",
       "recommend": []
     }
-  ]
+  ],
+  "order":{
+    "data|10":[
+      {
+        "shopName|1":["乐多多","螺公堂","泰芒了","小孟华","骨汤烫菜","华莱士","咖喱鸡排饭","超级长的店名哈哈哈哈哈哈哈哈哈"],
+        "shopImg":"@dataImage('50x50')",
+        "time":"@dateTime('yyyy-MM-dd HH:mm:ss')",
+        "foods|1-10":[{
+          "name":"黄金烤鸡",
+          "price":"@float(1, 50, 2, 2)",
+          "foodImg":"@dataImage('50x50')",
+          "count":"@integer(1,5)"
+          }],
+        "packPrice":"@float(0, 5, 1, 1)",
+        "discountPrice|1-3":["@integer(1, 5)"],
+        "deliveryPrice":"@integer(1, 5)",
+        "allPrice":"@float(1, 100, 2, 2)",
+        "status|1":["completed","rating","refund","cancel"],
+        "id":"@id",
+        "deliveryInfo":{
+          "time":"@time",
+          "address":"@city(true)",
+          "name":"@cname()",
+          "phoneNum":"@string('number', 11)"
+        }
+      }
+    ]
+  }
 }
